@@ -9,8 +9,7 @@ export function createNestableComponent<P extends object>(
   const NestableComponent = (props: P) => {
     const nestedProps = useContext(PropsContext);
     const combinedProps = mergeDeep<P>({} as P, nestedProps, props);
-    const passableProps = { ...combinedProps };
-    if ('children' in passableProps) delete passableProps['children'];
+    const { children, ...passableProps } = combinedProps;
     return (
       <PropsContext.Provider value={passableProps}>
         <Component {...combinedProps} />
