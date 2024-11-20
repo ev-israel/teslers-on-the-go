@@ -34,7 +34,9 @@ export function CountryPickerRow({
       case 'dialing-code':
         return country.countryCode;
       default:
-        throw new Error('Unsupported supplementary info');
+        throw new Error(
+          `Unsupported supplementary info type: ${supplementaryInfo as string}`
+        );
     }
   }, [country, supplementaryInfo]);
 
