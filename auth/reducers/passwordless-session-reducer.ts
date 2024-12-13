@@ -24,7 +24,7 @@ interface ResetSessionAction {
 type AnyAction = SetSessionAction | ResetSessionAction;
 
 export function passwordlessSessionReducer(
-  _state: PasswordlessSessionState,
+  state: PasswordlessSessionState,
   action: AnyAction,
 ): PasswordlessSessionState {
   switch (action.type) {
@@ -38,6 +38,14 @@ export function passwordlessSessionReducer(
       };
     case 'RESET_SESSION':
       return emptyPasswordlessSessionState;
+    default: {
+      const _exhaustiveCheck: never = action;
+      console.warn(
+        'Passwordless Session Reducer invoked with unexpected action payload',
+        _exhaustiveCheck,
+      );
+      return state;
+    }
   }
 }
 
