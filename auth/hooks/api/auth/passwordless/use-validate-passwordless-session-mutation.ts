@@ -1,25 +1,51 @@
+/* eslint-disable prettier/prettier */
 import { MutationOptions, useMutation } from '@tanstack/react-query';
 import apiAxios from '@/api-axios';
+import { IsBoolean, IsString, ValidateNested, validateOrReject } from 'class-validator';
+import { plainToInstance, Type } from 'class-transformer';
 
 interface ValidateOtpArgs {
   otp: string;
   sessionId: string; // Added sessionId to the arguments
 }
 
-interface ValidateOtpResponse {
-  success: boolean;
-  token?: string;
+class ValidateOtpResponse {
+  @IsBoolean()
+  success!: boolean;
+}
+
+class SuccessfulValidationResponse extends ValidateOtpResponse {
+  @IsString()
+  token!: string;
+}
+
+class FailedValidationResponse extends ValidateOtpResponse {}
+
+class ResponseWrapper {
+  @ValidateNested()
+  @Type(() => ValidateOtpResponse, {
+    discriminator: {
+      property: 'success',
+      subTypes: [
+        { value: SuccessfulValidationResponse, name: true as any },
+        { value: FailedValidationResponse, name: false as any },
+      ]
+    }
+  })
+  data!: SuccessfulValidationResponse | FailedValidationResponse;
 }
 
 async function validateOtp(payload: ValidateOtpArgs) {
-  const response = await apiAxios.post<ValidateOtpResponse>(
+  const response = await apiAxios.post(
     '/auth/validate-passwordless',
     payload,
   );
 
-  if (!response.data.success) throw new Error('Incorrect OTP');
-  if (!response.data.token) throw new Error('No token');
-  return response.data.token;
+  const responseData = plainToInstance(ResponseWrapper, { data: response.data }).data;
+  await validateOrReject(responseData);
+
+  if (responseData instanceof FailedValidationResponse) throw new Error('Incorrect OTP');
+  return responseData.token;
 }
 
 export function useValidatePasswordlessSessionMutation(
