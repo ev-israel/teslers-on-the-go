@@ -1,3 +1,5 @@
+import { Input } from '@ui-kitten/components';
+
 type Constructor<T> = new (...args: any[]) => T;
 
 type CatchValue<T, E> = [error: E, result: null] | [error: null, result: T];
@@ -70,13 +72,15 @@ export function catchError<T, E extends Error = Error>(
   return catchAsyncError(input, errorsToCatch);
 }
 
-export function isSuccessful<
-  Input extends PromiseInput<any> | CallbackInput<any>,
->(input: Input): WrappedValueForInput<Input, boolean> {
+export function isSuccessful<T>(input: PromiseInput<T>): Promise<boolean>;
+export function isSuccessful<T>(input: CallbackInput<T>): boolean;
+export function isSuccessful<T>(
+  input: PromiseInput<T> | CallbackInput<T>,
+): Promise<boolean> | boolean {
   if (input instanceof Promise) {
-    return input.then(() => true).catch(() => false) as any;
+    return input.then(() => true).catch(() => false);
   }
 
   const [err] = catchCallbackError(input);
-  return !err as any;
+  return !err;
 }
