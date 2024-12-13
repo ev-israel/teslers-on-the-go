@@ -85,7 +85,13 @@ Date.prototype.addWeeks = function (weeks: number): Date {
 
 Date.prototype.addMonths = function (months: number): Date {
   const date = new Date(this);
+  const expectedDay = date.getDate();
   date.setMonth(date.getMonth() + months);
+  if (date.getDate() !== expectedDay) {
+    // If the day changed, we hit an edge case
+    // Set to last day of previous month
+    date.setDate(0);
+  }
   return date;
 };
 
