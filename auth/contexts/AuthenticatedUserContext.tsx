@@ -32,8 +32,7 @@ type AnyAuthenticationStatePayload =
 type AuthenticatedUserContext = AnyAuthenticationStatePayload & {
   authWithPasswordlessToken(token: string): Promise<void>;
   refreshToken(): Promise<void>;
-  getToken(): Promise<string>;
-  getToken(cb: (token: string) => void): void;
+  getToken(cb?: (token: string) => void): Promise<string>;
 };
 
 const AuthenticatedUserContext = createContext<AuthenticatedUserContext | null>(
@@ -91,7 +90,7 @@ export function AuthenticatedUserProvider({
       async refreshToken(): Promise<void> {
         await requestAndStoreFreshToken();
       },
-      getToken: ((cb?: (token: string) => void): Promise<string> | void => {
+      async getToken(cb?: (token: string) => void): Promise<string> {
         const getFreshToken = async () => {
           return await requestAndStoreFreshToken();
         };
@@ -102,9 +101,10 @@ export function AuthenticatedUserProvider({
           return accessToken;
         };
 
-        if (cb) getToken().then((token) => cb(token));
-        else return getToken();
-      }) as any,
+        const token = await getToken();
+        if (cb) cb(token);
+        return token;
+      },
     }),
     [authenticationStatePayload, requestAndStoreFreshToken, refreshToken],
   );
