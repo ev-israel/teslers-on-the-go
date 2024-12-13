@@ -49,3 +49,4 @@ export const MaskedTextInput = forwardRef<TextInput, MaskedTextInputProps>(
     );
   },
 );
+MaskedTextInput.displayName = 'MaskedTextInput';

@@ -72,11 +72,7 @@ function isCharMatchesPatternComponent(
   if (typeof component === 'string') return char === component;
   if (typeof component === 'number') return char === component.toString();
   if (typeof component === 'function') return component(char);
-  if (component instanceof RegExp) return component.test(char);
-
-  throw new Error(
-    'Unknown pattern component type. Use string, number, test function, or regex',
-  );
+  return component.test(char);
 }
 
 function maskValue(value: string, compiledPattern: Pattern) {

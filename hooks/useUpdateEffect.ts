@@ -1,6 +1,9 @@
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 
-export function useUpdateEffect(effect: EffectCallback, deps?: DependencyList) {
+export function useUpdateEffect(
+  effect: EffectCallback,
+  deps: DependencyList = [],
+) {
   const isFirstRun = useRef(true);
 
   useEffect(() => {
@@ -10,5 +13,6 @@ export function useUpdateEffect(effect: EffectCallback, deps?: DependencyList) {
     }
 
     return effect();
-  }, deps);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [effect, ...deps]);
 }

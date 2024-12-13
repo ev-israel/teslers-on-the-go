@@ -35,7 +35,7 @@ export function CountryPickerRow({
         return country.countryCode;
       default:
         throw new Error(
-          `Unsupported supplementary info type: ${supplementaryInfo as string}`
+          `Unsupported supplementary info type: ${supplementaryInfo as string}`,
         );
     }
   }, [country, supplementaryInfo]);

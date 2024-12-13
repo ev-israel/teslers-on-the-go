@@ -39,6 +39,7 @@ export function passwordlessSessionReducer(
     case 'RESET_SESSION':
       return emptyPasswordlessSessionState;
     default: {
+      // noinspection UnnecessaryLocalVariableJS – Used for static analysis of impossible case
       const _exhaustiveCheck: never = action;
       console.warn(
         'Passwordless Session Reducer invoked with unexpected action payload',

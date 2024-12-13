@@ -145,6 +145,7 @@ export const PhoneNumberInput = forwardRef<
   PhoneNumberInputRef,
   PhoneNumberInputProps
 >((props, ref) => <PhoneNumberInputComponent {...props} forwardedRef={ref} />);
+PhoneNumberInput.displayName = 'PhoneNumberInput';
 
 const styles = StyleSheet.create({
   inputContainer: {

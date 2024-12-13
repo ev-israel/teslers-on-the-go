@@ -10,7 +10,7 @@ export function isObject<T>(item: T): boolean {
 /**
  * Deep merge two objects.
  * @param target
- * @param ...sources
+ * @param sources
  */
 export function mergeDeep<T extends object>(target: T, ...sources: T[]): T {
   if (!sources.length) return target;

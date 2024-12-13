@@ -79,3 +79,4 @@ export const CountryPickerBottomSheetModal = forwardRef<
     </BottomSheetModal>
   );
 });
+CountryPickerBottomSheetModal.displayName = 'CountryPickerBottomSheetModal';

@@ -141,6 +141,7 @@ export const CodeInput = forwardRef<CodeInput, CodeInputProps>((props, ref) => {
     </KeyboardAvoidingView>
   );
 });
+CodeInput.displayName = 'CodeInput';
 
 const styles = StyleSheet.create({
   container: {
