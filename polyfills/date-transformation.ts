@@ -60,7 +60,16 @@ interface Date {
 }
 
 Date.prototype.addMilliseconds = function (millis: number): Date {
-  return new Date(this.getTime() + millis);
+  if (!Number.isFinite(millis)) {
+    throw new RangeError('Invalid time value');
+  }
+
+  const safeMillis = Math.min(
+    Math.max(millis, -Number.MAX_SAFE_INTEGER),
+    Number.MAX_SAFE_INTEGER,
+  );
+
+  return new Date(this.getTime() + safeMillis);
 };
 
 Date.prototype.addSeconds = function (seconds: number): Date {
