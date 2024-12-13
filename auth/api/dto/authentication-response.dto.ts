@@ -1,5 +1,5 @@
 import { AuthenticatedUserDto } from '@/auth/api/dto/authenticated-user.dto';
-import { ClassConstructor, plainToInstance } from 'class-transformer';
+import { ClassConstructor, plainToInstance, Type } from 'class-transformer';
 import {
   IsNumber,
   IsString,
@@ -20,6 +20,7 @@ export class AuthenticationResponseDto {
 
 export class DetailedAuthenticationResponseDto extends AuthenticationResponseDto {
   @ValidateNested()
+  @Type(() => AuthenticatedUserDto)
   user!: AuthenticatedUserDto;
 }
 
