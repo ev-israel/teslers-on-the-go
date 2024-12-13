@@ -9,16 +9,6 @@ type WrappedValueForInput<
   T,
 > = Input extends PromiseInput<any> ? Promise<T> : T;
 
-type CatchValueForInput<
-  Input extends PromiseInput<any> | CallbackInput<any>,
-  E extends Error,
-> =
-  Input extends PromiseInput<infer U>
-    ? Promise<CatchValue<U, E>>
-    : Input extends CallbackInput<infer U>
-      ? CatchValue<U, E>
-      : never;
-
 async function catchAsyncError<T, E extends Error = Error>(
   promise: Promise<T>,
   errorsToCatch?: Constructor<E>[],
@@ -61,18 +51,23 @@ function catchCallbackError<T, E extends Error = Error>(
   }
 }
 
-export function catchError<
-  Input extends PromiseInput<any> | CallbackInput<any>,
-  E extends Error = Error,
->(
-  input: Input,
+export function catchError<T, E extends Error = Error>(
+  input: PromiseInput<T>,
   errorsToCatch?: Constructor<E>[],
-): CatchValueForInput<Input, E> {
-  if (input instanceof Promise) {
-    return catchAsyncError(input, errorsToCatch) as any;
+): Promise<CatchValue<T, E>>;
+export function catchError<T, E extends Error = Error>(
+  input: CallbackInput<T>,
+  errorsToCatch?: Constructor<E>[],
+): CatchValue<T, E>;
+export function catchError<T, E extends Error = Error>(
+  input: PromiseInput<T> | CallbackInput<T>,
+  errorsToCatch?: Constructor<E>[],
+): Promise<CatchValue<T, E>> | CatchValue<T, E> {
+  if (typeof input === 'function') {
+    return catchCallbackError(input, errorsToCatch);
   }
 
-  return catchCallbackError(input, errorsToCatch) as any;
+  return catchAsyncError(input, errorsToCatch);
 }
 
 export function isSuccessful<
