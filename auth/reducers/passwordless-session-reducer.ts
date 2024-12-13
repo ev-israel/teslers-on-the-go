@@ -29,6 +29,16 @@ export function passwordlessSessionReducer(
 ): PasswordlessSessionState {
   switch (action.type) {
     case 'SET_SESSION':
+      if (!action.payload.sessionId) {
+        console.error('Invalid sessionId received in SET_SESSION action');
+        return state;
+      }
+
+      if (action.payload.otpLength <= 0) {
+        console.error('Invalid otpLength received in SET_SESSION action');
+        return state;
+      }
+
       return {
         targetIdentity: action.meta.targetIdentity,
         sessionId: action.payload.sessionId,
