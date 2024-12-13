@@ -24,7 +24,7 @@ export default tseslint.config({
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-require-imports': 'off',
     'react/react-in-jsx-scope': 'off',
-    '@typescript-eslint/ ban-ts-comment': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
     ...eslintPluginReactHooks.configs.recommended.rules,
   },
 });
