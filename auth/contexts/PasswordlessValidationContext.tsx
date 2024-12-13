@@ -123,7 +123,13 @@ export function PasswordlessValidationContextProvider(
         );
       },
     };
-  }, []);
+  }, [
+    initiateSessionMutation,
+    isResendAvailable,
+    leftTimeForResendToBecomeAvailable,
+    session,
+    validateSessionMutation,
+  ]);
 
   return (
     <PasswordlessValidationContext.Provider value={context}>
