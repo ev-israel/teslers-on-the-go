@@ -24,6 +24,8 @@
     "@ui-kitten/components": "^5.3.1",
     "axios": "^1.7.7",
     "cancellationtoken": "^2.2.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "expo": "~52.0.8",
     "expo-blur": "~14.0.1",
     "expo-constants": "~17.0.3",
