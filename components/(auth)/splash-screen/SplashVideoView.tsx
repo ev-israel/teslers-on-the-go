@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useEventCallback } from 'usehooks-ts';
 
-// @ts-expect-error: Suppress TS80005 (require -> import) for this specific line
 const DEFAULT_VIDEO_SOURCE: VideoSource = require('@/assets/videos/splash-video.mp4');
 
 interface SplashVideoViewProps {
