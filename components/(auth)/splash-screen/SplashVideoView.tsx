@@ -40,10 +40,7 @@ export function SplashVideoView({
   );
 }
 
-function SplashVideoOverlayWing({
-  inverted = false,
-  coveragePercentage = 0.1,
-}) {
+function SplashVideoOverlayWing({ inverted = false, coveragePercentage = 1 }) {
   const colors: [string, string, ...string[]] = ['#1B1B1B', 'transparent']; // TODO: TOTG-57 Replace static color with a themed property of the background color
   if (inverted) colors.reverse();
 
@@ -52,9 +49,17 @@ function SplashVideoOverlayWing({
       style={[styles.video, styles.overlay]}
       colors={colors}
       dither={false}
-      locations={[0, coveragePercentage]}
+      locations={getStopPoints(inverted, 0, coveragePercentage)}
     />
   );
+}
+
+function getStopPoints<T extends number[]>(
+  inverted = false,
+  ...stopPoints: T
+): T {
+  if (!inverted) return stopPoints;
+  return stopPoints.toReversed().map((stopPoint) => 1 - stopPoint) as T;
 }
 
 const styles = StyleSheet.create({
