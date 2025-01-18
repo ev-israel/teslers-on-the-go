@@ -1,4 +1,3 @@
-import '@/polyfills/date-transformation';
 import { KittenProvider } from '@/contexts/KittenProvider';
 import { QueryClient } from '@tanstack/query-core';
 import { QueryClientProvider } from '@tanstack/react-query';
