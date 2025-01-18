@@ -1,14 +1,14 @@
+import { useRouter } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 import { SplashVideoView } from '@/components/(auth)/splash-screen/SplashVideoView';
 import { Button } from '@ui-kitten/components';
 import { Typography } from '@/components/Typography';
 
 export default function SplashScreen() {
+  const router = useRouter();
+
   const navigateToAuthFlow = () => {
-    // TODO(TOTG-7): Implement the mechanism to redirect to the actual auth flow. Here is an example:
-    // router.navigate('(auth)/passwordless1');
-    // don't forget to define the router using the useRouter hook exported from "expo-router"
-    console.warn('Not implemented yet');
+    router.navigate('/phone-input');
   };
 
   return (
